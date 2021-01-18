@@ -17,18 +17,24 @@ int main(void)
 	ball_vx = 1;
 	ball_vy = 1;
 	radius = 20;
-	for (int x = 100; x < 540; x += 20)
+	while(1)
 	{
 		//»æÖÆ»ÆÏß£¬ÂÌÉ«Ìî³äÔ²
 		setcolor(YELLOW);
 		setfillcolor(GREEN);
 		fillcircle(ball_x,ball_y,radius);
 		//ÑÓÊ±
-		Sleep(200);
+		Sleep(10);
 		//»æÖÆºÚÏß£¬ºÚÉ«Ìî³äÔ²
 		setcolor(BLACK);
 		setfillcolor(BLACK);
 		fillcircle(ball_x,ball_y,radius);
+		ball_x = ball_x + ball_vx;
+		ball_y = ball_y + ball_vy;
+		if (ball_x <= radius || ball_x >= Width - radius)
+			ball_vx = -ball_vx;
+		if (ball_y <= radius || ball_y >= High - radius)
+			ball_vy = -ball_vy;
 	}
 	closegraph;
 	return 0;
