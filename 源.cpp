@@ -17,14 +17,18 @@ int main(void)
 	ball_vx = 1;
 	ball_vy = 1;
 	radius = 20;
+
+	BeginBatchDraw();//开始批量绘制
 	while(1)
 	{
 		//绘制黄线，绿色填充圆
 		setcolor(YELLOW);
 		setfillcolor(GREEN);
 		fillcircle(ball_x,ball_y,radius);
+
+		FlushBatchDraw();//
 		//延时
-		Sleep(10);
+		Sleep(3);
 		//绘制黑线，黑色填充圆
 		setcolor(BLACK);
 		setfillcolor(BLACK);
@@ -36,6 +40,7 @@ int main(void)
 		if (ball_y <= radius || ball_y >= High - radius)
 			ball_vy = -ball_vy;
 	}
+	EndBatchDraw();
 	closegraph;
 	return 0;
 }
