@@ -1,8 +1,8 @@
-#include<stdio.h>
+ï»¿#include<stdio.h>
 #include<graphics.h>
 #include<conio.h>
 #include<math.h>
-//ÓÎÏ·»­Ãæ³ß´ç
+//æ¸¸æˆç”»é¢å°ºå¯¸
 #define High 480
 #define Width 640
 #define PI 3.1415926
@@ -13,32 +13,55 @@ int main(void)
 	center_x = Width / 2;
 	center_y = High / 2;
 
-	int secondLength;                          //ÃëÖÓµÄ³¤¶È
-	secondLength = Width / 5;                
-	int secondEnd_x = 0, secondEnd_y = 0;     //ÃëÖÓµÄÖÕµã×ø±ê
+	int secondLength,minuteLength,hourLength;                          
+	secondLength = Width / 5;                 //ç§’é’Ÿçš„é•¿åº¦
+	minuteLength = Width / 6;                 //åˆ†é’Ÿé•¿åº¦
+	hourLength = Width / 10;                  //æ—¶é’Ÿé•¿åº¦
+
+	int secondEnd_x = 0, secondEnd_y = 0,
+		minuteEnd_x = 0, minuteEnd_y = 0,
+		hourEnd_x = 0, hourEnd_y = 0;         //ç§’é’Ÿï¼Œåˆ†é’Ÿï¼Œæ—¶é’Ÿçš„ç»ˆç‚¹åæ ‡
+
 	secondEnd_x = secondEnd_x + secondLength;
 	secondEnd_y = center_y;
+	minuteEnd_x = minuteEnd_x + minuteLength;
+	minuteEnd_y = center_y;
+	hourEnd_x = hourEnd_x + hourLength;
+	hourEnd_x = center_y;
 
-	float secondAngle = 0;    //ÃëÖÓ¶ÔÓ¦µÄ×ª¶¯½Ç¶È
-	SYSTEMTIME ti;            //¶¨Òå±äÁ¿´¢´æÏµÍ³Ê±¼ä
+	double secondAngle = 0,minuteAngle=0,hourAngle=0;    //ç§’é’Ÿå¯¹åº”çš„è½¬åŠ¨è§’åº¦
+	SYSTEMTIME ti;            //å®šä¹‰å˜é‡å‚¨å­˜ç³»ç»Ÿæ—¶é—´
 	BeginBatchDraw();
 	while (1)
 	{
 		GetLocalTime(&ti);
-		secondAngle = ti.wSecond* 2 * PI / 60;
+		secondAngle = ti.wSecond * 2 * PI / 60;
+		minuteAngle = ti.wMinute * 2 * PI / 60;
+		hourAngle = ti.wHour * 2 * PI / 60;
 
 		secondEnd_x = center_x + secondLength * sin(secondAngle);
 		secondEnd_y = center_y - secondLength * cos(secondAngle);
-		//»­ÃëÖÓ
+		minuteEnd_x = center_x + minuteLength * sin(minuteAngle);
+		minuteEnd_y = center_y - minuteLength * cos(minuteAngle);
+		hourEnd_x = center_x + hourLength * sin(hourAngle);
+		hourEnd_y = center_y - hourLength * cos(hourAngle);
+		//ç”»ç§’é’Ÿ
 		setlinestyle(PS_SOLID, 2);
 		setcolor(WHITE);
 		line(center_x, center_y, secondEnd_x, secondEnd_y);
-		FlushBatchDraw();
+		setlinestyle(PS_SOLID, 5);
+		setcolor(BLUE);
+		line(center_x, center_y, minuteEnd_x, minuteEnd_y);
+		setlinestyle(PS_SOLID, 8);
+		setcolor(RED);
+		line(center_x, center_y, hourEnd_x, hourEnd_y);
 		Sleep(1000);
-		//Òş²ØÇ°Ò»Ö¡µÄÃëÖÓ
+		FlushBatchDraw();
+		//éšè—å‰ä¸€å¸§çš„ç§’é’Ÿ
 		setcolor(BLACK);
 		line(center_x, center_y, secondEnd_x, secondEnd_y);
-
+		line(center_x, center_y, minuteEnd_x, minuteEnd_y);
+		line(center_x, center_y, hourEnd_x, hourEnd_y);
 	}
 	EndBatchDraw();
 
