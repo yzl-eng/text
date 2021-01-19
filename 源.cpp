@@ -20,10 +20,13 @@ int main(void)
 	secondEnd_y = center_y;
 
 	float secondAngle = 0;    //秒钟对应的转动角度
-
+	SYSTEMTIME ti;            //定义变量储存系统时间
 	BeginBatchDraw();
 	while (1)
 	{
+		GetLocalTime(&ti);
+		secondAngle = ti.wSecond* 2 * PI / 60;
+
 		secondEnd_x = center_x + secondLength * sin(secondAngle);
 		secondEnd_y = center_y - secondLength * cos(secondAngle);
 		//画秒钟
@@ -36,7 +39,6 @@ int main(void)
 		setcolor(BLACK);
 		line(center_x, center_y, secondEnd_x, secondEnd_y);
 
-		secondAngle = secondAngle + 2 * PI / 60;
 	}
 	EndBatchDraw();
 
