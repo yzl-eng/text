@@ -1,22 +1,43 @@
 #include<stdio.h>
 #include<graphics.h>
 #include<conio.h>
+#include<math.h>
+//游戏画面尺寸
+#define High 480
+#define Width 640
+#define PI 3.1415926
 int main(void)
 {
-	initgraph(640, 480);
-	for (int x = 100; x < 540; x += 20)
+	initgraph(Width, High);
+	int center_x, center_y;
+	center_x = Width / 2;
+	center_y = High / 2;
+
+	int secondLength;
+	secondLength = Width / 5;
+	int secondEnd_x = 0, secondEnd_y = 0;
+	secondEnd_x = secondEnd_x + secondLength;
+	secondEnd_y = center_y;
+
+	float secondAngle = 0;    //秒钟对应的转动角度
+
+	while (1)
 	{
-		//绘制黄线，绿色填充圆
-		setcolor(YELLOW);
-		setfillcolor(GREEN);
-		fillcircle(x, 100, 20);
-		//延时
-		Sleep(200);
-		//绘制黑线，黑色填充圆
+		secondEnd_x = center_x + secondLength * sin(secondAngle);
+		secondEnd_y = center_y - secondLength * cos(secondAngle);
+		//画秒钟
+		setlinestyle(PS_SOLID, 2);
+		setcolor(WHITE);
+		line(center_x, center_y, secondEnd_x, secondEnd_y);
+		Sleep(1000);
+		//隐藏前一帧的秒钟
 		setcolor(BLACK);
-		setfillcolor(BLACK);
-		fillcircle(x, 100, 20);
+		line(center_x, center_y, secondEnd_x, secondEnd_y);
+
+		secondAngle = secondAngle + 2 * PI / 60;
 	}
-	closegraph;
+
+	_getch();
+	closegraph();
 	return 0;
 }
