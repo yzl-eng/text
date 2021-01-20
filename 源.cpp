@@ -2,6 +2,7 @@
 #include<graphics.h>
 #include<conio.h>
 #include<math.h>
+#include<windows.h>
 //游戏画面尺寸
 #define High 480
 #define Width 640
@@ -39,9 +40,25 @@ int main(void)
 		minuteAngle = ti.wMinute * 2 * PI / 60;
 		hourAngle = ti.wHour * 2 * PI / 60;
 
-		//制作表盘，绘制黄线，白色填充圆
-		setcolor(YELLOW);
-		fillcircle(center_x, center_y, Width/5+5);
+		// 绘制一个简单的表盘
+		setlinestyle(PS_SOLID, 2);
+		setcolor(WHITE);
+		circle(center_x, center_y, Width / 4);
+		outtextxy(center_x - 30, center_y + Width / 16, "钟表样例");
+		// 绘制刻度
+		int x, y;
+		for (int i = 0; i < 60; i++)
+		{
+			x = 320 + int(145 * sin(PI * 2 * i / 60));
+			y = 240 + int(145 * cos(PI * 2 * i / 60));
+
+			if (i % 15 == 0)
+				bar(x - 5, y - 5, x + 5, y + 5);
+			else if (i % 5 == 0)
+				circle(x, y, 3);
+			else
+				putpixel(x, y, WHITE);
+		}
 
 		secondEnd_x = center_x + secondLength * sin(secondAngle); //三个指针的变化
 		secondEnd_y = center_y - secondLength * cos(secondAngle);
@@ -51,7 +68,7 @@ int main(void)
 		hourEnd_y = center_y - hourLength * cos(hourAngle);
 		//画秒钟
 		setlinestyle(PS_SOLID, 2);
-		setcolor(BLACK);
+		setcolor(WHITE);
 		line(center_x, center_y, secondEnd_x, secondEnd_y);
 		setlinestyle(PS_SOLID, 5);
 		setcolor(BLUE);
@@ -62,7 +79,7 @@ int main(void)
 		Sleep(1000);
 		FlushBatchDraw();
 		//隐藏前一帧的秒钟
-		setcolor(WHITE);
+		setcolor(BLACK);
 		line(center_x, center_y, secondEnd_x, secondEnd_y);
 		line(center_x, center_y, minuteEnd_x, minuteEnd_y);
 		line(center_x, center_y, hourEnd_x, hourEnd_y);
